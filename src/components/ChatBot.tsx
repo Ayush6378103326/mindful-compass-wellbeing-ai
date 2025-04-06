@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Send, Mic, User, Bot, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -70,12 +69,11 @@ const ChatBot = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isUsingOpenAI, setIsUsingOpenAI] = useState(true);
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState('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');
   const [showApiKeyInput, setShowApiKeyInput] = useState(false);
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   
-  // Default responses when no match is found in the training data
   const defaultResponses = [
     "Based on your symptoms, it could be several conditions. For a proper diagnosis, I recommend consulting with a healthcare professional who can evaluate you in person.",
     "Maintaining healthy habits like regular exercise, balanced nutrition, adequate sleep, and stress management is key for overall wellness and disease prevention.",
@@ -94,10 +92,8 @@ const ChatBot = () => {
   }, [messages]);
   
   const findBestResponse = (input: string) => {
-    // Convert input to lowercase for case-insensitive matching
     const lowercaseInput = input.toLowerCase();
     
-    // Check for keyword matches in training data
     for (const item of trainingData) {
       for (const keyword of item.keywords) {
         if (lowercaseInput.includes(keyword)) {
@@ -106,7 +102,6 @@ const ChatBot = () => {
       }
     }
     
-    // Return a random default response if no keyword matches
     return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
   };
   
@@ -176,7 +171,6 @@ const ChatBot = () => {
     
     if (!inputMessage.trim()) return;
     
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       text: inputMessage,
@@ -188,13 +182,11 @@ const ChatBot = () => {
     setInputMessage('');
     setIsTyping(true);
     
-    // Generate a response based on the user's message
     let responseText = "";
     
     if (isUsingOpenAI) {
       responseText = await fetchChatGPTResponse(userMessage.text);
     } else {
-      // Use local response logic
       setTimeout(() => {
         responseText = findBestResponse(userMessage.text);
         
@@ -287,38 +279,6 @@ const ChatBot = () => {
           </div>
         </div>
       </div>
-      
-      {showApiKeyInput && (
-        <div className="p-4 bg-healthcare-light border-b border-healthcare-muted">
-          <div className="flex gap-2">
-            <Input
-              type="password"
-              placeholder="Enter your OpenAI API key"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              className="health-input"
-            />
-            <Button 
-              onClick={() => {
-                setShowApiKeyInput(false);
-                if (apiKey) {
-                  toast({
-                    title: "API Key Set",
-                    description: "Your OpenAI API key has been set",
-                    duration: 3000,
-                  });
-                }
-              }}
-              className="bg-healthcare-primary hover:bg-healthcare-secondary"
-            >
-              Save
-            </Button>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Your API key is stored locally in your browser and never sent to our servers.
-          </p>
-        </div>
-      )}
       
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
