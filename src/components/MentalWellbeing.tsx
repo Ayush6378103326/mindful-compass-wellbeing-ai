@@ -5,10 +5,20 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
 
 const MentalWellbeing = () => {
   // Mock data for the mental wellbeing status
   const wellbeingScore = 75;
+  const { toast } = useToast();
+  
+  const handleRecommendationAction = (title: string) => {
+    toast({
+      title: `Starting: ${title}`,
+      description: "This feature will be available in the next update.",
+      duration: 3000,
+    });
+  };
   
   return (
     <div className="w-full max-w-3xl mx-auto">
@@ -65,24 +75,28 @@ const MentalWellbeing = () => {
           description="Try this 5-minute breathing exercise to reduce stress and anxiety"
           icon={<Wind className="text-healthcare-primary" />}
           action="Start Now"
+          onActionClick={() => handleRecommendationAction("Deep Breathing")}
         />
         <RecommendationCard 
           title="Calming Music" 
           description="Listen to curated sounds to help you relax and focus"
           icon={<Music className="text-healthcare-success" />}
           action="Listen"
+          onActionClick={() => handleRecommendationAction("Calming Music")}
         />
         <RecommendationCard 
           title="Self-Care Check" 
           description="Take our quick assessment to gauge your current emotional state"
           icon={<Heart className="text-healthcare-danger" />}
           action="Take Assessment"
+          onActionClick={() => handleRecommendationAction("Self-Care Check")}
         />
         <RecommendationCard 
           title="Talk to a Professional" 
           description="Connect with licensed therapists and counselors"
           icon={<User className="text-healthcare-secondary" />}
           action="Find Help"
+          onActionClick={() => handleRecommendationAction("Professional Help")}
         />
       </div>
       
@@ -123,9 +137,10 @@ interface RecommendationCardProps {
   description: string;
   icon: React.ReactNode;
   action: string;
+  onActionClick: () => void;
 }
 
-const RecommendationCard = ({ title, description, icon, action }: RecommendationCardProps) => (
+const RecommendationCard = ({ title, description, icon, action, onActionClick }: RecommendationCardProps) => (
   <Card className="health-card">
     <CardContent className="pt-6">
       <div className="flex gap-4">
@@ -139,6 +154,7 @@ const RecommendationCard = ({ title, description, icon, action }: Recommendation
             variant="outline" 
             className="text-healthcare-primary border-healthcare-primary hover:bg-healthcare-muted"
             size="sm"
+            onClick={onActionClick}
           >
             {action}
           </Button>
