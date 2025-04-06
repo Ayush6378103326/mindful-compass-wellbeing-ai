@@ -1,12 +1,19 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import Navbar from '../components/Navbar';
+import Dashboard from '../components/Dashboard';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      <main className="py-6">
+        <Dashboard />
+      </main>
+      <footer className="border-t border-healthcare-muted py-6 mt-12">
+        <div className="container mx-auto px-4 text-center text-gray-500 text-sm">
+          <p>&copy; {new Date().getFullYear()} MindfulCompass - AI-Powered Healthcare Assistant</p>
+        </div>
+      </footer>
     </div>
   );
 };
