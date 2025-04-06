@@ -4,6 +4,7 @@ import { Heart, Music, Wind, Brain, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { cn } from '@/lib/utils';
 
 const MentalWellbeing = () => {
   // Mock data for the mental wellbeing status
@@ -110,7 +111,10 @@ const WellbeingMetric = ({ label, value, color }: WellbeingMetricProps) => (
       <span className="text-sm text-gray-600">{label}</span>
       <span className="text-sm font-medium text-healthcare-dark">{value}%</span>
     </div>
-    <Progress value={value} className="h-2" indicatorClassName={color} />
+    <Progress 
+      value={value} 
+      className={cn("h-2", color)} 
+    />
   </div>
 );
 
